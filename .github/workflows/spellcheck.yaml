@@ -1,0 +1,30 @@
+name: Spell check README
+
+on:
+  push:
+    paths:
+      - "README.md"
+      - "cspell.json"
+  pull_request:
+    paths:
+      - "README.md"
+      - "cspell.json"
+
+permissions:
+  contents: read
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Spell check README.md
+        uses: streetsidesoftware/cspell-action@v8
+        with:
+          files: README.md
+          # Check README.md on every run, not only when it changed in the diff
+          incremental_files_only: false
+          # Use the cspell.json in the repo root for custom words/language
+          config: cspell.json
